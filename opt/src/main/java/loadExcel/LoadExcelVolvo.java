@@ -1,5 +1,6 @@
 package loadExcel;
 
+import com.sun.javafx.logging.JFRInputEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -15,18 +16,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static java.lang.Double.*;
+import static java.lang.Integer.parseInt;
+import static java.lang.String.*;
+
 public class LoadExcelVolvo {
 
-    private static ObservableList<Object> loadExcelVolvoRows = FXCollections.observableArrayList();
+    private static ObservableList<LoadExcelVolvoRow> loadExcelVolvoRows = FXCollections.observableArrayList();
 
-    private void openBook() throws IOException, InvalidFormatException {
+    private void openBook() throws IOException {
 
         FileInputStream fileInputStream = new FileInputStream(new File(
                 "C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\Volvo\\Parts_Price_List_01-11-2019.xlsx"));
         XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
         XSSFSheet sheet = workbook.getSheetAt(0);
         Iterator iterator = sheet.rowIterator();
-
+        int i = 0;
         while (iterator.hasNext()) {
             Row row = (Row) iterator.next();
             Iterator<Cell> cellIterator = row.cellIterator();
@@ -37,9 +42,10 @@ public class LoadExcelVolvo {
 
                 switch (cellType) {
                     case _NONE:
+                        data.add("NONE");
                         break;
                     case BOOLEAN:
-                        data.add(cell.getBooleanCellValue());
+                        data.add(String.valueOf(cell.getBooleanCellValue()));
                         break;
                     case BLANK:
                         break;
@@ -47,7 +53,7 @@ public class LoadExcelVolvo {
                         data.add(cell.getCellFormula());
                         break;
                     case NUMERIC:
-                        data.add(cell.getNumericCellValue());
+                        data.add(String.valueOf(cell.getNumericCellValue()));
                         break;
                     case STRING:
                         data.add(cell.getStringCellValue());
@@ -56,8 +62,26 @@ public class LoadExcelVolvo {
                         break;
                 }
             }
-            loadExcelVolvoRows.add(data);
+            try {
+                if(i >= 4) {
+                    if (data.size() == 6) {
+                        loadExcelVolvoRows.add(new LoadExcelVolvoRow(data));
+                    }
+                }
+                i++;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
+        for (int j = 0; j < loadExcelVolvoRows.size(); j++) {
+            System.out.println(loadExcelVolvoRows.get(j).getProductGroup() + " " + loadExcelVolvoRows.get(j).getFunctionalGroup() + " " +
+                    loadExcelVolvoRows.get(j).getPartNumber() + " " + loadExcelVolvoRows.get(j).getNamePart() + " " +
+                    loadExcelVolvoRows.get(j).getSaleGroup() + " " + loadExcelVolvoRows.get(j).
+                    getRetailPrice());
+        }
+        System.out.println(loadExcelVolvoRows.size());
+        System.out.println(i - 1);
         fileInputStream.close();
     }
 

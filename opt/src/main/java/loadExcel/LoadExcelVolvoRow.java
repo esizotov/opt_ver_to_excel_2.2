@@ -1,15 +1,18 @@
 package loadExcel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoadExcelVolvoRow {
 
-    private int productGroup;
-    private int functionalGroup;
+    private String productGroup;
+    private String functionalGroup;
     private String partNumber;
     private String namePart;
-    private int saleGroup;
-    private Double retailPrice;
+    private String saleGroup;
+    private String retailPrice;
 
-    public LoadExcelVolvoRow(int productGroup, int functionalGroup, String partNumber, String namePart, int saleGroup, Double retailPrice) {
+    public LoadExcelVolvoRow(String productGroup, String functionalGroup, String partNumber, String namePart, String saleGroup, String retailPrice) {
         this.productGroup = productGroup;
         this.functionalGroup = functionalGroup;
         this.partNumber = partNumber;
@@ -18,20 +21,29 @@ public class LoadExcelVolvoRow {
         this.retailPrice = retailPrice;
     }
 
+    public LoadExcelVolvoRow(List data) {
+        this.productGroup = (String) data.get(0);
+        this.functionalGroup = (String) data.get(1);
+        this.partNumber = (String) data.get(2);
+        this.namePart = (String) data.get(3);
+        this.saleGroup = (String) data.get(4);
+        this.retailPrice = (String) data.get(5);
+    }
 
-    public int getProductGroup() {
+
+    public String getProductGroup() {
         return productGroup;
     }
 
-    public void setProductGroup(int productGroup) {
+    public void setProductGroup(String productGroup) {
         this.productGroup = productGroup;
     }
 
-    public int getFunctionalGroup() {
+    public String getFunctionalGroup() {
         return functionalGroup;
     }
 
-    public void setFunctionalGroup(int functionalGroup) {
+    public void setFunctionalGroup(String functionalGroup) {
         this.functionalGroup = functionalGroup;
     }
 
@@ -51,19 +63,19 @@ public class LoadExcelVolvoRow {
         this.namePart = namePart;
     }
 
-    public int getSaleGroup() {
+    public String getSaleGroup() {
         return saleGroup;
     }
 
-    public void setSaleGroup(int saleGroup) {
+    public void setSaleGroup(String saleGroup) {
         this.saleGroup = saleGroup;
     }
 
-    public Double getRetailPrice() {
+    public String getRetailPrice() {
         return retailPrice;
     }
 
-    public void setRetailPrice(Double retailPrice) {
+    public void setRetailPrice(String retailPrice) {
         this.retailPrice = retailPrice;
     }
 }
