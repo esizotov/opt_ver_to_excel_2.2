@@ -1,6 +1,5 @@
 package loadExcel;
 
-import com.sun.javafx.logging.JFRInputEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -16,18 +15,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static java.lang.Double.*;
-import static java.lang.Integer.parseInt;
-import static java.lang.String.*;
 
 public class LoadExcelVolvo {
 
     private static ObservableList<LoadExcelVolvoRow> loadExcelVolvoRows = FXCollections.observableArrayList();
 
-    private void openBook() throws IOException {
+    public static ObservableList<LoadExcelVolvoRow> openBookVolvo(String fileAllPrice) throws IOException {
 
-        FileInputStream fileInputStream = new FileInputStream(new File(
-                "C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\Volvo\\Parts_Price_List_01-11-2019.xlsx"));
+        FileInputStream fileInputStream = new FileInputStream(new File(fileAllPrice));
         XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
         XSSFSheet sheet = workbook.getSheetAt(0);
         Iterator iterator = sheet.rowIterator();
@@ -72,22 +67,9 @@ public class LoadExcelVolvo {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-        for (int j = 0; j < loadExcelVolvoRows.size(); j++) {
-            System.out.println(loadExcelVolvoRows.get(j).getProductGroup() + " " + loadExcelVolvoRows.get(j).getFunctionalGroup() + " " +
-                    loadExcelVolvoRows.get(j).getPartNumber() + " " + loadExcelVolvoRows.get(j).getNamePart() + " " +
-                    loadExcelVolvoRows.get(j).getSaleGroup() + " " + loadExcelVolvoRows.get(j).
-                    getRetailPrice());
-        }
-        System.out.println(loadExcelVolvoRows.size());
-        System.out.println(i - 1);
         fileInputStream.close();
-    }
-
-    public static void main(String[] args) throws IOException, InvalidFormatException {
-        LoadExcelVolvo loadExcelVolvo = new LoadExcelVolvo();
-        loadExcelVolvo.openBook();
+        return loadExcelVolvoRows;
     }
 }
 

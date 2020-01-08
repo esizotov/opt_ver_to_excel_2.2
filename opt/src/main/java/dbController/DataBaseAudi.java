@@ -10,13 +10,13 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DataBase {
+public class DataBaseAudi {
 
     private static Connection connection;
     private static Statement statement;
     private static ObservableList<DataBaseOutput> dataBaseOutputs = FXCollections.observableArrayList();
     private static String message;
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_S");
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_S");
     private static String nameFile;
 
     //+++++

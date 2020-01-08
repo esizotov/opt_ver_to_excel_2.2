@@ -134,11 +134,40 @@
                             <items>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="275.0" prefWidth="998.0">
                                     <children>
-                                        <TextField layoutX="14.0" layoutY="14.0" />
-                                        <Button layoutX="177.0" layoutY="14.0" mnemonicParsing="false" text="Найти" />
-                                        <TextArea layoutX="14.0" layoutY="50.0" prefHeight="220.0" prefWidth="970.0" />
+                                        <TextField
+                                                   layoutX="14.0" layoutY="14.0" promptText="Номер детали" />
+                                        <Button
+                                                layoutX="177.0" layoutY="14.0" mnemonicParsing="false" text="Найти">
+                                        </Button>
+                                        <TableView layoutX="14.0" layoutY="52.0" prefHeight="220.0" prefWidth="970.0">
+                                            <columns>
+                                                <TableColumn prefWidth="150.0" text="Part number"/>
+                                                <TableColumn prefWidth="250.0" text="Name part"/>
+                                                <TableColumn prefWidth="100.0" text="Price"/>
+                                                <TableColumn prefWidth="100.0" text="Remains of CS"/>
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                    <children>
+                                        <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Общий прайс" />
+                                        <TextField fx:id="textFieldChooserAllPriceVolvoID"
+                                                   layoutX="7.0" layoutY="25.0" prefHeight="25.0" prefWidth="239.0" promptText="Выберите файл" />
+                                        <Button fx:id="fileChooserVolvoAll" onAction="#fileChooser"
+                                                layoutX="257.0" layoutY="25.0" mnemonicParsing="false" text="..."/>
+                                        <Button fx:id="buttonLoadAllPriceVolvoID" onAction="#buttonLoadAllPriceVolvo"
+                                                layoutX="292.0" layoutY="25.0" mnemonicParsing="false" text="Загрузить" />
+
+                                        <Text layoutX="14.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Остатки ЦС" />
+                                        <TextField fx:id="textFieldChooserVolvoStockID"
+                                                   layoutX="7.0" layoutY="76.0" prefHeight="25.0" prefWidth="239.0" promptText="Выберите файл" />
+                                        <Button fx:id="fileChooserVolvoStock" onAction="#fileChooser"
+                                                layoutX="257.0" layoutY="76.0" mnemonicParsing="false" text="..." />
+                                        <Button
+                                                layoutX="292.0" layoutY="76.0" mnemonicParsing="false" text="Загрузить" />
+                                        <Line endX="978.0" layoutX="10.0" layoutY="120.0" startX="0.0" />
                                     </children></AnchorPane>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
                             </items>
                         </SplitPane>
                     </children></AnchorPane>

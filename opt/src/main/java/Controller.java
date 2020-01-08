@@ -9,7 +9,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
+
+import static loadExcel.LoadExcelVolvo.openBookVolvo;
 
 
 public class Controller {
@@ -97,6 +100,21 @@ public class Controller {
 
     Window primaryStage;
 
+    @FXML
+    Button fileChooserVolvoAll;
+
+    @FXML
+    TextField textFieldChooserAllPriceVolvoID;
+
+    @FXML
+    Button buttonLoadAllPriceVolvoID;
+
+    @FXML
+    Button fileChooserVolvoStock;
+
+    @FXML
+    TextField textFieldChooserVolvoStockID;
+
     // заполнение tableView +++++
     @FXML
     private void initialize() throws SQLException, ClassNotFoundException {
@@ -104,7 +122,7 @@ public class Controller {
         columnNamePartID.setCellValueFactory(new PropertyValueFactory<DataBaseOutput, String>("namePart"));
         columnPriceID.setCellValueFactory(new PropertyValueFactory<DataBaseOutput, Double>("price"));
         columnRemainsID.setCellValueFactory(new PropertyValueFactory<DataBaseOutput, Integer>("remains"));
-        tableViewID.setItems(DataBase.initTableView());
+        tableViewID.setItems(DataBaseAudi.initTableView());
     }
 
     // выбор файлов загрузки общего прайса и остатков ЦС +++++
@@ -113,8 +131,9 @@ public class Controller {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open resource file");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Text files", "*.txt"),
-                new FileChooser.ExtensionFilter("All files", "*,*")
+                new FileChooser.ExtensionFilter("All files", "*.*"),
+                new FileChooser.ExtensionFilter("Excel files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("Text files", "*.txt")
         );
 
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
@@ -126,45 +145,65 @@ public class Controller {
             if (selectedFile != null)
                 textFieldChooserStockID.appendText(selectedFile.getAbsolutePath());
         }
+        if (fileChooserVolvoAll.isFocused()) {
+            if (selectedFile != null)
+                textFieldChooserAllPriceVolvoID.appendText(selectedFile.getAbsolutePath());
+        }
+        if (fileChooserVolvoStock.isFocused()) {
+            if (selectedFile != null)
+                textFieldChooserVolvoStockID.appendText(selectedFile.getAbsolutePath());
+        }
     }
 
     // загрузка общего прайс-листа +++++
     @FXML
     public void buttonLoadAllParts() throws Exception {
-        DataBase.loadAllPrice(textFieldChooserAllPriceID.getText());
+        DataBaseAudi.loadAllPrice(textFieldChooserAllPriceID.getText());
     }
 
     // загрузка остатков ЦС +++++
     @FXML
     public void buttonLoadPartsCS() throws Exception {
-        DataBase.loadPartsCS(textFieldChooserStockID.getText());
+        DataBaseAudi.loadPartsCS(textFieldChooserStockID.getText());
 
     }
 
     // выгрузка прайса Сток ЦС (0-й) +наценка/-скидка +++++
     @FXML
     public void priceStockCS() throws SQLException, ClassNotFoundException {
-        DataBase.formPriceStockCS(textFieldSalePriceStockID.getText());
+        DataBaseAudi.formPriceStockCS(textFieldSalePriceStockID.getText());
     }
 
     // выгрузка прайса Срочный ЦС (0-й) +наценка/-скидка +++++
     public void priceZSOCS() throws SQLException, ClassNotFoundException {
-        DataBase.formPriceZSOCS(textFieldSalePriceZSOID.getText());
+        DataBaseAudi.formPriceZSOCS(textFieldSalePriceZSOID.getText());
     }
 
     // выгрузка прайса Сток ЦС по группам +наценка/-скидка +++++
     public void priceStockGroup() throws SQLException, ClassNotFoundException {
-        DataBase.formPriceStockGroups(textFieldSaleStock12GroupID.getText(), textFieldSaleStock8GroupID.getText(),
+        DataBaseAudi.formPriceStockGroups(textFieldSaleStock12GroupID.getText(), textFieldSaleStock8GroupID.getText(),
                 textFieldSaleStock4GroupID.getText(), textFieldSaleStock2GroupID.getText());
     }
 
     // выгрузка прайса Срочный ЦС по группам +наценка/-скидка +++++
     public void priceZSOGroup() throws SQLException, ClassNotFoundException {
-        DataBase.formPriceZSOGroups(textFieldSaleZSO12GroupID.getText(), textFieldSaleZSO8GroupID.getText(),
+        DataBaseAudi.formPriceZSOGroups(textFieldSaleZSO12GroupID.getText(), textFieldSaleZSO8GroupID.getText(),
                 textFieldSaleZSO4GroupID.getText(), textFieldSaleZSO2GroupID.getText());
     }
 
     public void buttonSearch() {
+    }
 
+    @FXML
+    public void buttonLoadAllPriceVolvo() {
+        try {
+            DataBaseVolvo.loadAllPriceVolvo(openBookVolvo(textFieldChooserAllPriceVolvoID.getText()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
