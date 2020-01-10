@@ -2,7 +2,12 @@ package loadExcel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -14,16 +19,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+public class LoadExcelVolvoRemains {
 
-public class LoadExcelVolvo {
+    private static ObservableList<LoadExcelVolvoRowRemains> loadExcelVolvoRowsRemains = FXCollections.observableArrayList();
 
-    private static ObservableList<LoadExcelVolvoRow> loadExcelVolvoRows = FXCollections.observableArrayList();
+    public static ObservableList<LoadExcelVolvoRowRemains> openBookVolvoRemains(String fileRemains) throws IOException {
 
-    public static ObservableList<LoadExcelVolvoRow> openBookVolvo(String fileAllPrice) throws IOException {
-
-        FileInputStream fileInputStream = new FileInputStream(new File(fileAllPrice));
-        XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
-        XSSFSheet sheet = workbook.getSheetAt(0);
+        FileInputStream fileInputStream = new FileInputStream(new File(fileRemains));
+        HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
+        HSSFSheet sheet = workbook.getSheetAt(0);
         Iterator iterator = sheet.rowIterator();
         int i = 0;
         while (iterator.hasNext()) {
@@ -31,7 +35,7 @@ public class LoadExcelVolvo {
             Iterator<Cell> cellIterator = row.cellIterator();
             List data = new ArrayList();
             while (cellIterator.hasNext()) {
-                XSSFCell cell = (XSSFCell) cellIterator.next();
+                HSSFCell cell = (HSSFCell) cellIterator.next();
                 CellType cellType = cell.getCellTypeEnum();
 
                 switch (cellType) {
@@ -57,9 +61,9 @@ public class LoadExcelVolvo {
                 }
             }
             try {
-                if(i >= 4) {
-                    if (data.size() == 6) {
-                        loadExcelVolvoRows.add(new LoadExcelVolvoRow(data));
+                if (i > 0) {
+                    if (data.size() == 9) {
+                        loadExcelVolvoRowsRemains.add(new LoadExcelVolvoRowRemains(data));
                     }
                 }
                 i++;
@@ -68,7 +72,6 @@ public class LoadExcelVolvo {
             }
         }
         fileInputStream.close();
-        return loadExcelVolvoRows;
+        return loadExcelVolvoRowsRemains;
     }
 }
-

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import static loadExcel.LoadExcelVolvo.openBookVolvo;
+import static loadExcel.LoadExcelVolvoRemains.openBookVolvoRemains;
 
 
 public class Controller {
@@ -115,6 +116,9 @@ public class Controller {
     @FXML
     TextField textFieldChooserVolvoStockID;
 
+    @FXML
+    Button buttonLoadPartsCSVolvoID;
+
     // заполнение tableView +++++
     @FXML
     private void initialize() throws SQLException, ClassNotFoundException {
@@ -155,37 +159,36 @@ public class Controller {
         }
     }
 
-    // загрузка общего прайс-листа +++++
+    // загрузка общего прайс-листа Audi+++++
     @FXML
     public void buttonLoadAllParts() throws Exception {
         DataBaseAudi.loadAllPrice(textFieldChooserAllPriceID.getText());
     }
 
-    // загрузка остатков ЦС +++++
+    // загрузка остатков ЦС Audi+++++
     @FXML
     public void buttonLoadPartsCS() throws Exception {
         DataBaseAudi.loadPartsCS(textFieldChooserStockID.getText());
-
     }
 
-    // выгрузка прайса Сток ЦС (0-й) +наценка/-скидка +++++
+    // выгрузка прайса Сток ЦС (0-й) Audi +наценка/-скидка +++++
     @FXML
     public void priceStockCS() throws SQLException, ClassNotFoundException {
         DataBaseAudi.formPriceStockCS(textFieldSalePriceStockID.getText());
     }
 
-    // выгрузка прайса Срочный ЦС (0-й) +наценка/-скидка +++++
+    // выгрузка прайса Срочный ЦС (0-й) Audi +наценка/-скидка +++++
     public void priceZSOCS() throws SQLException, ClassNotFoundException {
         DataBaseAudi.formPriceZSOCS(textFieldSalePriceZSOID.getText());
     }
 
-    // выгрузка прайса Сток ЦС по группам +наценка/-скидка +++++
+    // выгрузка прайса Сток ЦС по группам Audi +наценка/-скидка +++++
     public void priceStockGroup() throws SQLException, ClassNotFoundException {
         DataBaseAudi.formPriceStockGroups(textFieldSaleStock12GroupID.getText(), textFieldSaleStock8GroupID.getText(),
                 textFieldSaleStock4GroupID.getText(), textFieldSaleStock2GroupID.getText());
     }
 
-    // выгрузка прайса Срочный ЦС по группам +наценка/-скидка +++++
+    // выгрузка прайса Срочный ЦС по группам Audi +наценка/-скидка +++++
     public void priceZSOGroup() throws SQLException, ClassNotFoundException {
         DataBaseAudi.formPriceZSOGroups(textFieldSaleZSO12GroupID.getText(), textFieldSaleZSO8GroupID.getText(),
                 textFieldSaleZSO4GroupID.getText(), textFieldSaleZSO2GroupID.getText());
@@ -194,6 +197,7 @@ public class Controller {
     public void buttonSearch() {
     }
 
+    // загрузка общего прайс-листа Volvo+++++
     @FXML
     public void buttonLoadAllPriceVolvo() {
         try {
@@ -203,6 +207,16 @@ public class Controller {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // загрузка остатков ЦС +++++
+    @FXML
+    public void buttonLoadPartsCSVolvo() {
+        try {
+            DataBaseVolvo.loadPartsCSVolvo(openBookVolvoRemains(textFieldChooserVolvoStockID.getText()));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

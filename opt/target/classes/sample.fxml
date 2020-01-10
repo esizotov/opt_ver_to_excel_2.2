@@ -164,7 +164,7 @@
                                                    layoutX="7.0" layoutY="76.0" prefHeight="25.0" prefWidth="239.0" promptText="Выберите файл" />
                                         <Button fx:id="fileChooserVolvoStock" onAction="#fileChooser"
                                                 layoutX="257.0" layoutY="76.0" mnemonicParsing="false" text="..." />
-                                        <Button
+                                        <Button fx:id="buttonLoadPartsCSVolvoID" onAction="#buttonLoadPartsCSVolvo"
                                                 layoutX="292.0" layoutY="76.0" mnemonicParsing="false" text="Загрузить" />
                                         <Line endX="978.0" layoutX="10.0" layoutY="120.0" startX="0.0" />
                                     </children></AnchorPane>
