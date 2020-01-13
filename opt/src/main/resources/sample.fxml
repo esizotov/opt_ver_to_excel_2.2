@@ -166,7 +166,15 @@
                                                 layoutX="257.0" layoutY="76.0" mnemonicParsing="false" text="..." />
                                         <Button fx:id="buttonLoadPartsCSVolvoID" onAction="#buttonLoadPartsCSVolvo"
                                                 layoutX="292.0" layoutY="76.0" mnemonicParsing="false" text="Загрузить" />
-                                        <Line endX="978.0" layoutX="10.0" layoutY="120.0" startX="0.0" />
+
+                                        <Text layoutX="14.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Группы скидок" />
+                                        <TextField fx:id="textFieldChooserVolvoSaleGroupID"
+                                                   layoutX="7.0" layoutY="127.0" prefHeight="25.0" prefWidth="239.0" promptText="Выберите файл" />
+                                        <Button fx:id="fileChooserVolvoSaleGroupID" onAction="#fileChooser"
+                                                layoutX="257.0" layoutY="127.0" mnemonicParsing="false" text="..." />
+                                        <Button fx:id="buttonLoadSaleGroupID" onAction="#buttonLoadSaleGroup"
+                                                layoutX="292.0" layoutY="127.0" mnemonicParsing="false" text="Загрузить" />
+                                        <Line endX="978.0" layoutX="10.0" layoutY="170.0" startX="0.0" />
                                     </children></AnchorPane>
                             </items>
                         </SplitPane>

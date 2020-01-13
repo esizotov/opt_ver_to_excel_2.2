@@ -14,6 +14,7 @@ import java.sql.SQLException;
 
 import static loadExcel.LoadExcelVolvo.openBookVolvo;
 import static loadExcel.LoadExcelVolvoRemains.openBookVolvoRemains;
+import static loadExcel.LoadExcelVolvoSaleGroup.openBookVolvoSaleGroup;
 
 
 public class Controller {
@@ -119,6 +120,15 @@ public class Controller {
     @FXML
     Button buttonLoadPartsCSVolvoID;
 
+    @FXML
+    TextField textFieldChooserVolvoSaleGroupID;
+
+    @FXML
+    Button fileChooserVolvoSaleGroupID;
+
+    @FXML
+    Button buttonLoadSaleGroupID;
+
     // заполнение tableView +++++
     @FXML
     private void initialize() throws SQLException, ClassNotFoundException {
@@ -156,6 +166,10 @@ public class Controller {
         if (fileChooserVolvoStock.isFocused()) {
             if (selectedFile != null)
                 textFieldChooserVolvoStockID.appendText(selectedFile.getAbsolutePath());
+        }
+        if (fileChooserVolvoSaleGroupID.isFocused()) {
+            if (selectedFile != null)
+                textFieldChooserVolvoSaleGroupID.appendText(selectedFile.getAbsolutePath());
         }
     }
 
@@ -217,6 +231,16 @@ public class Controller {
         try {
             DataBaseVolvo.loadPartsCSVolvo(openBookVolvoRemains(textFieldChooserVolvoStockID.getText()));
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // загрузка таблицы скидок
+    @FXML
+    public void buttonLoadSaleGroup() {
+        try {
+            DataBaseVolvo.loadSalesDiscountMatrix(openBookVolvoSaleGroup(textFieldChooserVolvoSaleGroupID.getText()));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

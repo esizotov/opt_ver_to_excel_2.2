@@ -3,6 +3,8 @@ package dbController;
 import javafx.collections.ObservableList;
 import loadExcel.LoadExcelVolvoRow;
 import loadExcel.LoadExcelVolvoRowRemains;
+import loadExcel.LoadExcelVolvoRowSaleGroup;
+import loadExcel.LoadExcelVolvoSaleGroup;
 import messageWindows.ControllerMessage;
 
 import java.sql.*;
@@ -83,6 +85,36 @@ public class DataBaseVolvo {
         message = "Загружено " + resultSet.getString(1) + " строк!";
         ControllerMessage.messageWindowDone(message);
         disconnect();
+    }
+
+    public static void loadSalesDiscountMatrix(ObservableList<LoadExcelVolvoRowSaleGroup> loadExcelVolvoRowSaleGroup) {
+        try {
+            connect();
+            statement.execute("TRUNCATE TABLE sales_discount_matrix;");
+            try {
+                for (int i = 0; i < loadExcelVolvoRowSaleGroup.size(); i++) {
+                    PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO sales_discount_matrix VALUES (?, ?, ?, ?);");
+                    preparedStatement.setString(1, loadExcelVolvoRowSaleGroup.get(i).getNameProductGroup());
+                    preparedStatement.setString(2, loadExcelVolvoRowSaleGroup.get(i).getSaleGroup());
+                    preparedStatement.setString(3, loadExcelVolvoRowSaleGroup.get(i).getStockDiscount());
+                    preparedStatement.setString(4, loadExcelVolvoRowSaleGroup.get(i).getDailyDiscount());
+                    preparedStatement.addBatch();
+                    preparedStatement.executeBatch();
+                }
+            } catch (SQLException e) {
+                ControllerMessage.messageWindowDone(String.valueOf(e));
+            }
+            ResultSet resultSet = statement.executeQuery("SELECT count(*) FROM sales_discount_matrix;");
+            resultSet.next();
+            message = "Загружено " + resultSet.getString(1) + " строк!";
+            ControllerMessage.messageWindowDone(message);
+            disconnect();
+        } catch (SQLException e) {
+            ControllerMessage.messageWindowDone(String.valueOf(e));
+        } catch (ClassNotFoundException e) {
+            ControllerMessage.messageWindowDone(String.valueOf(e));
+        }
+
     }
 
 }
