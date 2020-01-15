@@ -175,6 +175,26 @@
                                         <Button fx:id="buttonLoadSaleGroupID" onAction="#buttonLoadSaleGroup"
                                                 layoutX="292.0" layoutY="127.0" mnemonicParsing="false" text="Загрузить" />
                                         <Line endX="978.0" layoutX="10.0" layoutY="170.0" startX="0.0" />
+
+                                        <Text layoutX="14.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Сток ЦС" />
+                                        <Label layoutX="400.0" layoutY="220.0" text="Скидку указать с минусом, наценку с плюсом (в %)!!!"
+                                               textFill="red">
+                                            <font>
+                                                <Font name="Arial Bold Italic" size="18.0"/>
+                                            </font>
+                                        </Label>
+
+                                        <TextField fx:id="textFieldDiscountStockVolvoID" text="0"
+                                                   layoutX="180.0" layoutY="200.0" prefHeight="25.0" prefWidth="60.0" promptText="Скидка" />
+                                        <Button fx:id="buttonPriceStockVolvoID" onAction="#priceStockVolvoCS"
+                                                layoutX="250.0" layoutY="200.0" mnemonicParsing="false" text="Сформировать" />
+
+                                        <Text layoutX="14.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Срочный ЦС" />
+                                        <TextField fx:id="textFieldDiscountZSOVolvoID" text="0"
+                                                   layoutX="180.0" layoutY="235.0" prefHeight="25.0" prefWidth="60.0" promptText="Скидка" />
+                                        <Button fx:id="buttonPriceZSOVolvoID" onAction="#priceZSOVolvoCS"
+                                                layoutX="250.0" layoutY="235.0" mnemonicParsing="false" text="Сформировать" />
+
                                     </children></AnchorPane>
                             </items>
                         </SplitPane>

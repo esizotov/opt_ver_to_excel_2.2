@@ -1,19 +1,23 @@
 package dbController;
 
+import exportToExcel.ExportToExcel;
 import javafx.collections.ObservableList;
 import loadExcel.LoadExcelVolvoRow;
 import loadExcel.LoadExcelVolvoRowRemains;
 import loadExcel.LoadExcelVolvoRowSaleGroup;
-import loadExcel.LoadExcelVolvoSaleGroup;
 import messageWindows.ControllerMessage;
 
+import java.io.IOException;
 import java.sql.*;
+
+import static dbController.DataBaseAudi.dateAndTime;
 
 public class DataBaseVolvo {
 
     private static Connection connection;
     private static Statement statement;
     private static String message;
+    private static String nameFile;
 
     //+++++
     public static void connect() throws SQLException, ClassNotFoundException {
@@ -87,6 +91,7 @@ public class DataBaseVolvo {
         disconnect();
     }
 
+// загрузка групп скидок Volvo+++++
     public static void loadSalesDiscountMatrix(ObservableList<LoadExcelVolvoRowSaleGroup> loadExcelVolvoRowSaleGroup) {
         try {
             connect();
@@ -115,6 +120,86 @@ public class DataBaseVolvo {
             ControllerMessage.messageWindowDone(String.valueOf(e));
         }
 
+    }
+
+// выгрузка прайса Сток ЦС (0-й) +наценка/-скидка
+    public static void formPriceStockCSVolvo(String discount) throws SQLException, ClassNotFoundException {
+        connect();
+        try {
+            statement.execute("TRUNCATE TABLE price_cs;");
+            statement.execute("INSERT INTO price_cs " +
+                    "SELECT stock_cs.part_number, stock_cs.name_part, 'Volvo', " +
+                    "round(stock_cs.retail_price * (1 - sales_discount_matrix.stock_discount / 100) * " +
+                    (1 + Double.valueOf(discount) / 100) + " * 1.2, 2), stock_cs.stock_remains " +
+                    "FROM price_cs_parts, stock_cs, sales_discount_matrix " +
+                    "WHERE price_cs_parts.part_number = stock_cs.part_number " +
+                    "AND stock_cs.sale_group = sales_discount_matrix.sale_group;");
+        } catch (SQLException e) {
+            try {
+                ControllerMessage.messageWindowDone(String.valueOf(e));
+                return;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        nameFile = "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Out/STOCK_VOLVO_" + discount + "_" + dateAndTime() + ".xlsx";
+        try {
+            selectQuery(nameFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+    }
+
+// выгрузка прайса Сток ЦС (0-й) +наценка/-скидка
+    public static void formPriceZSOCSVolvo(String discount) throws SQLException, ClassNotFoundException {
+        connect();
+        try {
+            statement.execute("TRUNCATE TABLE price_cs;");
+            statement.execute("INSERT INTO price_cs " +
+                    "SELECT stock_cs.part_number, stock_cs.name_part, 'Volvo', " +
+                    "round(stock_cs.retail_price * (1 - sales_discount_matrix.daily_discount / 100) * " +
+                    (1 + Double.valueOf(discount) / 100) + " * 1.2, 2), stock_cs.stock_remains " +
+                    "FROM price_cs_parts, stock_cs, sales_discount_matrix " +
+                    "WHERE price_cs_parts.part_number = stock_cs.part_number " +
+                    "AND stock_cs.sale_group = sales_discount_matrix.sale_group;");
+        } catch (SQLException e) {
+            try {
+                ControllerMessage.messageWindowDone(String.valueOf(e));
+                return;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        nameFile = "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Out/ZSO_VOLVO_" + discount + "_" + dateAndTime() + ".xlsx";
+        try {
+            selectQuery(nameFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        disconnect();
+    }
+
+// выгрузка в Excel+++++
+    public static void selectQuery(String nameFile) throws IOException {
+        try {
+            connect();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM price_cs;");
+            ExportToExcel.exportToExcel(resultSet, nameFile);
+            ResultSet rs = statement.executeQuery("SELECT count(*) FROM price_cs;");
+            rs.next();
+            message = "В прайсе " + rs.getString(1) + " строк!";
+            try {
+                ControllerMessage.messageWindowDone(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        disconnect();
     }
 
 }

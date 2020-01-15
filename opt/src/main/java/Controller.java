@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import messageWindows.ControllerMessage;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,6 +130,18 @@ public class Controller {
     @FXML
     Button buttonLoadSaleGroupID;
 
+    @FXML
+    TextField textFieldDiscountStockVolvoID;
+
+    @FXML
+    Button buttonPriceStockVolvoID;
+
+    @FXML
+    TextField textFieldDiscountZSOVolvoID;
+
+    @FXML
+    Button buttonPriceZSOVolvoID;
+
     // заполнение tableView +++++
     @FXML
     private void initialize() throws SQLException, ClassNotFoundException {
@@ -192,17 +205,20 @@ public class Controller {
     }
 
     // выгрузка прайса Срочный ЦС (0-й) Audi +наценка/-скидка +++++
+    @FXML
     public void priceZSOCS() throws SQLException, ClassNotFoundException {
         DataBaseAudi.formPriceZSOCS(textFieldSalePriceZSOID.getText());
     }
 
     // выгрузка прайса Сток ЦС по группам Audi +наценка/-скидка +++++
+    @FXML
     public void priceStockGroup() throws SQLException, ClassNotFoundException {
         DataBaseAudi.formPriceStockGroups(textFieldSaleStock12GroupID.getText(), textFieldSaleStock8GroupID.getText(),
                 textFieldSaleStock4GroupID.getText(), textFieldSaleStock2GroupID.getText());
     }
 
     // выгрузка прайса Срочный ЦС по группам Audi +наценка/-скидка +++++
+    @FXML
     public void priceZSOGroup() throws SQLException, ClassNotFoundException {
         DataBaseAudi.formPriceZSOGroups(textFieldSaleZSO12GroupID.getText(), textFieldSaleZSO8GroupID.getText(),
                 textFieldSaleZSO4GroupID.getText(), textFieldSaleZSO2GroupID.getText());
@@ -242,6 +258,30 @@ public class Controller {
             DataBaseVolvo.loadSalesDiscountMatrix(openBookVolvoSaleGroup(textFieldChooserVolvoSaleGroupID.getText()));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // выгрузка прайса Сток ЦС Volvo +наценка/-скидка +++++
+    @FXML
+    public void priceStockVolvoCS() {
+        try {
+            DataBaseVolvo.formPriceStockCSVolvo(textFieldDiscountStockVolvoID.getText());
+        } catch (SQLException e) {
+            ControllerMessage.messageWindowDone(String.valueOf(e));
+        } catch (ClassNotFoundException e) {
+            ControllerMessage.messageWindowDone(String.valueOf(e));
+        }
+    }
+
+    // выгрузка прайса Срочный ЦС Volvo +наценка/-скидка +++++
+    @FXML
+    public void priceZSOVolvoCS() {
+        try {
+            DataBaseVolvo.formPriceZSOCSVolvo(textFieldDiscountZSOVolvoID.getText());
+        } catch (SQLException e) {
+            ControllerMessage.messageWindowDone(String.valueOf(e));
+        } catch (ClassNotFoundException e) {
+            ControllerMessage.messageWindowDone(String.valueOf(e));
         }
     }
 }
