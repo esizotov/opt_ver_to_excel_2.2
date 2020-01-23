@@ -142,6 +142,54 @@ public class Controller {
     @FXML
     Button buttonPriceZSOVolvoID;
 
+    @FXML
+    TextField textFieldChooserAllPriceJaguarID;
+
+    @FXML
+    Button fileChooserJaguarAllID;
+
+    @FXML
+    Button buttonLoadAllPriceJaguarID;
+
+    @FXML
+    TextField textFieldChooserLRStockID;
+
+    @FXML
+    Button fileChooserLRStockID;
+
+    @FXML
+    Button buttonLoadPartsCSLRID;
+
+    @FXML
+    TextField textFieldChooserJaguarStockID;
+
+    @FXML
+    Button fileChooserJaguarStockID;
+
+    @FXML
+    Button buttonLoadPartsCSJaguarID;
+
+    @FXML
+    TextField textFieldChooserAllPriceLRID;
+
+    @FXML
+    Button fileChooserLRAllID;
+
+    @FXML
+    Button buttonLoadAllPriceLRID;
+
+    @FXML
+    TextField textFieldDiscountStockJLRID;
+
+    @FXML
+    Button buttonPriceStockJLRID;
+
+    @FXML
+    TextField textFieldDiscountZSOJLRID;
+
+    @FXML
+    Button buttonPriceZSOJLRID;
+
     // заполнение tableView +++++
     @FXML
     private void initialize() throws SQLException, ClassNotFoundException {
@@ -183,6 +231,22 @@ public class Controller {
         if (fileChooserVolvoSaleGroupID.isFocused()) {
             if (selectedFile != null)
                 textFieldChooserVolvoSaleGroupID.appendText(selectedFile.getAbsolutePath());
+        }
+        if (fileChooserJaguarAllID.isFocused()) {
+            if (selectedFile != null)
+                textFieldChooserAllPriceJaguarID.appendText(selectedFile.getAbsolutePath());
+        }
+        if (fileChooserLRStockID.isFocused()) {
+            if (selectedFile != null)
+                textFieldChooserLRStockID.appendText(selectedFile.getAbsolutePath());
+        }
+        if (fileChooserJaguarStockID.isFocused()) {
+            if (selectedFile != null)
+                textFieldChooserJaguarStockID.appendText(selectedFile.getAbsolutePath());
+        }
+        if (fileChooserLRAllID.isFocused()) {
+            if (selectedFile != null)
+                textFieldChooserAllPriceLRID.appendText(selectedFile.getAbsolutePath());
         }
     }
 
@@ -241,7 +305,7 @@ public class Controller {
         }
     }
 
-    // загрузка остатков ЦС +++++
+    // загрузка остатков ЦС Volvo+++++
     @FXML
     public void buttonLoadPartsCSVolvo() {
         try {
@@ -251,7 +315,7 @@ public class Controller {
         }
     }
 
-    // загрузка таблицы скидок
+    // загрузка таблицы скидок Volvo+++++
     @FXML
     public void buttonLoadSaleGroup() {
         try {
@@ -283,5 +347,49 @@ public class Controller {
         } catch (ClassNotFoundException e) {
             ControllerMessage.messageWindowDone(String.valueOf(e));
         }
+    }
+
+    // загрузка общего прайс-листа Jaguar+++++
+    @FXML
+    public void buttonLoadAllPriceJaguar() {
+        DataBaseJLR.loadPartsAllJaguar(textFieldChooserAllPriceJaguarID.getText());
+    }
+
+    // загрузка общего прайс-листа LR+++++
+    @FXML
+    public void buttonLoadAllPriceLR() {
+        DataBaseJLR.loadPartsAllLR(textFieldChooserAllPriceLRID.getText());
+    }
+
+    // загрузка остатков ЦС LR+++++
+    @FXML
+    public void buttonLoadPartsCSLR() {
+        try {
+            DataBaseJLR.loadPartsCSLR(textFieldChooserLRStockID.getText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // загрузка остатков ЦС Jaguar+++++
+    @FXML
+    public void buttonLoadPartsCSJaguar() {
+        try {
+            DataBaseJLR.loadPartsCSJaguar(textFieldChooserJaguarStockID.getText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // выгрузка прайса Сток ЦС JLR+++++
+    @FXML
+    public void priceStockJLRCS() {
+        DataBaseJLR.formPriceStockCSJLR(textFieldDiscountStockJLRID.getText());
+    }
+
+    // выгрузка прайса Срочный ЦС JLR+++++
+    @FXML
+    public void priceZSOJLRCS() {
+        DataBaseJLR.formPriceZSOCSJLR(textFieldDiscountZSOJLRID.getText());
     }
 }

@@ -2,9 +2,9 @@ package dbController;
 
 import exportToExcel.ExportToExcel;
 import javafx.collections.ObservableList;
-import loadExcel.LoadExcelVolvoRow;
-import loadExcel.LoadExcelVolvoRowRemains;
-import loadExcel.LoadExcelVolvoRowSaleGroup;
+import loadExcelVolvoRow.LoadExcelVolvoRow;
+import loadExcelVolvoRow.LoadExcelVolvoRowRemains;
+import loadExcelVolvoRow.LoadExcelVolvoRowSaleGroup;
 import messageWindows.ControllerMessage;
 
 import java.io.IOException;
@@ -151,7 +151,7 @@ public class DataBaseVolvo {
         disconnect();
     }
 
-// выгрузка прайса Сток ЦС (0-й) +наценка/-скидка
+// выгрузка прайса срочный ЦС (0-й) +наценка/-скидка
     public static void formPriceZSOCSVolvo(String discount) throws SQLException, ClassNotFoundException {
         connect();
         try {

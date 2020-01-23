@@ -50,6 +50,7 @@ public class DataBaseAudi {
                 "WHERE AX_TNR = TRIM(part_number) " +
                 "AND ck != '10' and ck != '12' and ck != '13' and ck != '14' and ck != '16';");
         while (resultSet.next()) {
+
             dataBaseOutputs.add(new DataBaseOutput(resultSet.getString(1), resultSet.getString(2),
                     resultSet.getDouble(3), resultSet.getInt(4)));
         }
