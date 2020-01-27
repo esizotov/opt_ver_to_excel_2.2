@@ -17,7 +17,6 @@ public class DataBaseJLR {
 
     private static Connection connection;
     private static Statement statement;
-    private static ObservableList<LoadExcelJLRRow> loadExcelJLRRows = FXCollections.observableArrayList();
     private static String message;
     private static String nameFile;
 
@@ -81,6 +80,7 @@ public class DataBaseJLR {
     public static void loadPartsCSLR(String file) throws IOException {
         try {
             connect();
+            ObservableList<LoadExcelJLRRow> loadExcelJLRRows = FXCollections.observableArrayList();
             List dataAll = LoadExcelHSSF.openBook(file);
             for (int i = 1; i < dataAll.size(); i++) {
                 List data = (List) dataAll.get(i);
@@ -88,7 +88,7 @@ public class DataBaseJLR {
             }
             statement.execute("TRUNCATE TABLE stock_cs_lr;");
             for (int i = 0; i < loadExcelJLRRows.size(); i++) {
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO stock_cs_lr VALUES (?, ?);");
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT IGNORE INTO stock_cs_lr VALUES (?, ?);");
                 preparedStatement.setString(1, loadExcelJLRRows.get(i).getPartNumber());
                 preparedStatement.setString(2, loadExcelJLRRows.get(i).getStockRemains());
                 preparedStatement.addBatch();
@@ -110,6 +110,7 @@ public class DataBaseJLR {
     public static void loadPartsCSJaguar(String file) throws IOException {
         try {
             connect();
+            ObservableList<LoadExcelJLRRow> loadExcelJLRRows = FXCollections.observableArrayList();
             List dataAll = LoadExcelHSSF.openBook(file);
             for (int i = 1; i < dataAll.size(); i++) {
                 List data = (List) dataAll.get(i);
@@ -117,7 +118,7 @@ public class DataBaseJLR {
             }
             statement.execute("TRUNCATE TABLE stock_cs_jaguar;");
             for (int i = 0; i < loadExcelJLRRows.size(); i++) {
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO stock_cs_jaguar VALUES (?, ?);");
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT IGNORE INTO stock_cs_jaguar VALUES (?, ?);");
                 preparedStatement.setString(1, loadExcelJLRRows.get(i).getPartNumber());
                 preparedStatement.setString(2, loadExcelJLRRows.get(i).getStockRemains());
                 preparedStatement.addBatch();

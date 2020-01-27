@@ -16,15 +16,17 @@ import java.util.List;
 
 public class LoadExcelHSSF {
 
-    private static List dataAll = new ArrayList();
+//    private static List dataAll = new ArrayList();
 
     public static List openBook(String file) throws IOException {
+
+        List dataAll = new ArrayList();
 
         FileInputStream fileInputStream = new FileInputStream(new File(file));
         HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
         HSSFSheet sheet = workbook.getSheetAt(0);
         Iterator iterator = sheet.rowIterator();
-        int i = 0;
+//        int i = 0;
         while (iterator.hasNext()) {
             Row row = (Row) iterator.next();
             Iterator<Cell> cellIterator = row.cellIterator();
@@ -55,7 +57,7 @@ public class LoadExcelHSSF {
                         break;
                 }
             }
-            i++;
+//            i++;
             dataAll.add(data);
         }
         fileInputStream.close();
